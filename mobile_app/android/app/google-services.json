@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "660827703867",
+    "firebase_url": "https://math-battle-arena-15081-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "math-battle-arena-15081",
+    "storage_bucket": "math-battle-arena-15081.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:660827703867:android:6356708e868aa4f4d46a1e",
+        "android_client_info": {
+          "package_name": "com.example.mobile_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5kC7hWfFsNz29iWwPZNSrAAm5EB_9Ai4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
