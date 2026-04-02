@@ -43,3 +43,7 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Firebase config files should stay local per developer/environment
+/android/app/google-services.json
+/ios/Runner/GoogleService-Info.plist
