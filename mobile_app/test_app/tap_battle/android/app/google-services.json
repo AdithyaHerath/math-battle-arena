@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "59632080933",
+    "project_id": "flame-test-2bc21",
+    "storage_bucket": "flame-test-2bc21.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:59632080933:android:60ab85a64fcf75afdbc7cc",
+        "android_client_info": {
+          "package_name": "com.example.tap_battle"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD3qqWqH_0EhHRmcI48scMSL7LKtQ8HpM4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
