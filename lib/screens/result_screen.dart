@@ -52,7 +52,17 @@ class ResultScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                   Icon(topIcon, size: 100, color: Colors.white),
+                   TweenAnimationBuilder<double>(
+                     duration: const Duration(milliseconds: 1000),
+                     curve: Curves.elasticOut,
+                     tween: Tween(begin: 0.0, end: 1.0),
+                     builder: (context, value, child) {
+                       return Transform.scale(
+                         scale: value,
+                         child: Icon(topIcon, size: 100, color: Colors.white),
+                       );
+                     },
+                   ),
                    const SizedBox(height: 24),
                    Text(
                     isDraw
