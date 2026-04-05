@@ -27,7 +27,7 @@ class MathBattleApp extends StatelessWidget {
           foregroundColor: Color(0xFF1E293B),
           centerTitle: true,
         ),
-        cardTheme: CardTheme(
+        cardTheme: CardThemeData(
           elevation: 2,
           shadowColor: Colors.black.withOpacity(0.1),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
