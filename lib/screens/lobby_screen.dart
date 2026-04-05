@@ -26,7 +26,10 @@ class LobbyScreen extends StatelessWidget {
           );
         }
       });
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: const Center(child: CircularProgressIndicator()),
+      );
     }
 
     // Handle game started
@@ -36,7 +39,10 @@ class LobbyScreen extends StatelessWidget {
           Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const GameScreen()));
         }
       });
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return Scaffold(
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        body: const Center(child: CircularProgressIndicator()),
+      );
     }
 
     final isHost = room.hostId == user.uid;
@@ -45,7 +51,7 @@ class LobbyScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Room: ${room.roomId}'),
+        title: const Text('Lobby', style: TextStyle(fontWeight: FontWeight.bold)),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () async {
@@ -54,78 +60,120 @@ class LobbyScreen extends StatelessWidget {
           },
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const Text(
-              'Players (Max 2)',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-            ),
-            const SizedBox(height: 16),
-            Expanded(
-              child: ListView.builder(
-                itemCount: players.length,
-                itemBuilder: (ctx, idx) {
-                  final player = players[idx];
-                  return Card(
-                    child: ListTile(
-                      leading: Icon(
-                        Icons.person,
-                        color: player.uid == room.hostId ? Colors.amber : Colors.blue,
-                      ),
-                      title: Text(player.username),
-                      subtitle: Text(player.uid == room.hostId ? 'Host' : 'Challenger'),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          if (player.isReady)
-                            const Icon(Icons.check_circle, color: Colors.green)
-                          else
-                            const Icon(Icons.hourglass_empty, color: Colors.grey),
-                          const SizedBox(width: 8),
-                          Text(
-                            player.isReady ? 'Ready' : 'Waiting',
-                            style: TextStyle(
-                              color: player.isReady ? Colors.green : Colors.grey,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ],
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              // Room Code Header
+              Container(
+                padding: const EdgeInsets.symmetric(vertical: 24),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    const Text('ROOM CODE', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.grey)),
+                    const SizedBox(height: 8),
+                    Text(
+                      room.roomId,
+                      style: const TextStyle(
+                        fontSize: 48,
+                        fontWeight: FontWeight.w900,
+                        letterSpacing: 12,
+                        color: Color(0xFF6366F1),
                       ),
                     ),
-                  );
-                },
-              ),
-            ),
-            
-            // Ready up button
-            ElevatedButton(
-              onPressed: () => gameProvider.toggleReady(user.uid),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: amIReady ? Colors.orange : Colors.green,
-                minimumSize: const Size(double.infinity, 50),
-              ),
-              child: Text(
-                amIReady ? 'Cancel Ready' : 'Ready Up!',
-                style: const TextStyle(fontSize: 18),
-              ),
-            ),
-            
-            const SizedBox(height: 16),
-            
-            // Host start button
-            if (isHost)
-              ElevatedButton(
-                onPressed: room.allPlayersReady
-                    ? () => gameProvider.startGame()
-                    : null,
-                style: ElevatedButton.styleFrom(
-                  minimumSize: const Size(double.infinity, 50),
+                  ],
                 ),
-                child: const Text('Start Game', style: TextStyle(fontSize: 18)),
               ),
-          ],
+              const SizedBox(height: 32),
+              
+              const Text(
+                'Players (Max 2)',
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xFF1E293B)),
+              ),
+              const SizedBox(height: 16),
+              
+              Expanded(
+                child: ListView.separated(
+                  itemCount: players.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (ctx, idx) {
+                    final player = players[idx];
+                    return Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: ListTile(
+                          leading: CircleAvatar(
+                            backgroundColor: player.uid == room.hostId 
+                                ? const Color(0xFFF59E0B).withOpacity(0.2) // Amber 
+                                : const Color(0xFF3B82F6).withOpacity(0.2), // Blue
+                            child: Icon(
+                              Icons.person,
+                              color: player.uid == room.hostId ? const Color(0xFFF59E0B) : const Color(0xFF3B82F6),
+                            ),
+                          ),
+                          title: Text(player.username, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+                          subtitle: Text(player.uid == room.hostId ? 'Host' : 'Challenger'),
+                          trailing: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: player.isReady ? const Color(0xFF10B981).withOpacity(0.1) : Colors.grey.shade200,
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Text(
+                              player.isReady ? 'READY' : 'WAITING',
+                              style: TextStyle(
+                                color: player.isReady ? const Color(0xFF10B981) : Colors.grey.shade600,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              
+              const SizedBox(height: 16),
+              
+              // Ready up button
+              ElevatedButton(
+                onPressed: () => gameProvider.toggleReady(user.uid),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: amIReady ? const Color(0xFFF43F5E) : const Color(0xFF10B981),
+                  minimumSize: const Size(double.infinity, 60),
+                ),
+                child: Text(
+                  amIReady ? 'Cancel Ready' : 'Ready Up!',
+                  style: const TextStyle(fontSize: 18),
+                ),
+              ),
+              
+              if (isHost) const SizedBox(height: 16),
+              
+              // Host start button
+              if (isHost)
+                ElevatedButton(
+                  onPressed: room.allPlayersReady
+                      ? () => gameProvider.startGame()
+                      : null,
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: const Size(double.infinity, 60),
+                    backgroundColor: const Color(0xFF6366F1),
+                  ),
+                  child: const Text('Start Game', style: TextStyle(fontSize: 18)),
+                ),
+            ],
+          ),
         ),
       ),
     );

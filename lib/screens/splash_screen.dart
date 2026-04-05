@@ -37,24 +37,46 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    
     return Scaffold(
-      backgroundColor: Colors.blueAccent,
+      backgroundColor: theme.scaffoldBackgroundColor,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Icon(Icons.calculate, size: 80, color: Colors.white),
-            SizedBox(height: 20),
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: theme.primaryColor.withOpacity(0.1),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(Icons.calculate, size: 80, color: theme.primaryColor),
+            ),
+            const SizedBox(height: 30),
             Text(
-              'Math Battle Arena',
+              'Math Battle',
               style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+                fontSize: 40,
+                fontWeight: FontWeight.w900,
+                color: theme.primaryColor,
+                letterSpacing: -1.5,
               ),
             ),
-            SizedBox(height: 40),
-            CircularProgressIndicator(color: Colors.white),
+            const Text(
+              'ARENA',
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                color: Color(0xFF1E293B),
+                letterSpacing: 8,
+              ),
+            ),
+            const SizedBox(height: 60),
+            CircularProgressIndicator(
+              color: theme.primaryColor,
+              strokeWidth: 3,
+            ),
           ],
         ),
       ),
