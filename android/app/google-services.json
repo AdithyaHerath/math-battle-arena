@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "476037159867",
+    "project_id": "game-mvp01",
+    "storage_bucket": "game-mvp01.firebasestorage.app",
+    "firebase_url": "https://game-mvp01-default-rtdb.asia-southeast1.firebasedatabase.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:476037159867:android:a0b402d14a3ec83020c29e",
+        "android_client_info": {
+          "package_name": "com.example.game_mvp1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNMheOSCinb9Xi-ZM3Zyv9Ug7xlfQ5dVg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
