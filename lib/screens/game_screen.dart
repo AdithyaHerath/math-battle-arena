@@ -45,84 +45,86 @@ class GameScreen extends StatelessWidget {
         automaticallyImplyLeading: false, // Prevent going back manually
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // Health Bars
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text('You', style: TextStyle(fontWeight: FontWeight.bold)),
-                      Text('HP: ${myPlayer.hp}', style: const TextStyle(fontSize: 18, color: Colors.green)),
-                    ],
-                  ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(opponent.username, style: const TextStyle(fontWeight: FontWeight.bold)),
-                      Text('HP: ${opponent.hp}', style: const TextStyle(fontSize: 18, color: Colors.red)),
-                    ],
-                  ),
-                ],
-              ),
-              
-              const SizedBox(height: 30),
-              
-              // Timer
-              Text(
-                '${gameProvider.timeLeft}',
-                style: TextStyle(
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                  color: gameProvider.timeLeft <= 3 ? Colors.red : Colors.black,
-                ),
-              ),
-              const Text('Seconds Left'),
-
-              const Spacer(),
-
-              // Question
-              Text(
-                currentQuestion.text,
-                style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
-              ),
-              
-              const Spacer(),
-
-              // Answers Grid
-              if (myPlayer.hasAnsweredCurrent)
-                const Padding(
-                  padding: EdgeInsets.all(32.0),
-                  child: Text('Waiting for opponent...', style: TextStyle(fontSize: 18)),
-                )
-              else
-                GridView.count(
-                  shrinkWrap: true,
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 2,
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: currentQuestion.options.map((option) {
-                    return ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blueAccent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(16),
-                        )
-                      ),
-                      onPressed: () => gameProvider.submitAnswer(option),
-                      child: Text('$option', style: const TextStyle(fontSize: 24, color: Colors.white)),
-                    );
-                  }).toList(),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                // Health Bars
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text('You', style: TextStyle(fontWeight: FontWeight.bold)),
+                        Text('HP: ${myPlayer.hp}', style: const TextStyle(fontSize: 18, color: Colors.green)),
+                      ],
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(opponent.username, style: const TextStyle(fontWeight: FontWeight.bold)),
+                        Text('HP: ${opponent.hp}', style: const TextStyle(fontSize: 18, color: Colors.red)),
+                      ],
+                    ),
+                  ],
                 ),
                 
-              const SizedBox(height: 20),
-            ],
+                const SizedBox(height: 30),
+                
+                // Timer
+                Text(
+                  '${gameProvider.timeLeft}',
+                  style: TextStyle(
+                    fontSize: 48,
+                    fontWeight: FontWeight.bold,
+                    color: gameProvider.timeLeft <= 3 ? Colors.red : Colors.black,
+                  ),
+                ),
+                const Text('Seconds Left'),
+
+                const SizedBox(height: 40),
+
+                // Question
+                Text(
+                  currentQuestion.text,
+                  style: const TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
+                
+                const SizedBox(height: 40),
+
+                // Answers Grid
+                if (myPlayer.hasAnsweredCurrent)
+                  const Padding(
+                    padding: EdgeInsets.all(32.0),
+                    child: Text('Waiting for opponent...', style: TextStyle(fontSize: 18)),
+                  )
+                else
+                  GridView.count(
+                    shrinkWrap: true,
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 2,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: currentQuestion.options.map((option) {
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.blueAccent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          )
+                        ),
+                        onPressed: () => gameProvider.submitAnswer(option),
+                        child: Text('$option', style: const TextStyle(fontSize: 24, color: Colors.white)),
+                      );
+                    }).toList(),
+                  ),
+                  
+                const SizedBox(height: 20),
+              ],
+            ),
           ),
         ),
       ),
