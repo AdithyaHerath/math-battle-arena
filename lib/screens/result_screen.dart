@@ -52,17 +52,7 @@ class ResultScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                   TweenAnimationBuilder<double>(
-                     duration: const Duration(milliseconds: 1000),
-                     curve: Curves.elasticOut,
-                     tween: Tween(begin: 0.0, end: 1.0),
-                     builder: (context, value, child) {
-                       return Transform.scale(
-                         scale: value,
-                         child: Icon(topIcon, size: 100, color: Colors.white),
-                       );
-                     },
-                   ),
+                   _AnimatedResultIcon(iconData: topIcon),
                    const SizedBox(height: 24),
                    Text(
                     isDraw
@@ -163,6 +153,43 @@ class _ResultRow extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _AnimatedResultIcon extends StatefulWidget {
+  final IconData iconData;
+  const _AnimatedResultIcon({required this.iconData});
+
+  @override
+  State<_AnimatedResultIcon> createState() => _AnimatedResultIconState();
+}
+
+class _AnimatedResultIconState extends State<_AnimatedResultIcon> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
+    _animation = Tween<double>(begin: 1.0, end: 1.15).animate(
+      CurvedAnimation(parent: _controller, curve: Curves.easeInOutSine),
+    );
+    _controller.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ScaleTransition(
+      scale: _animation,
+      child: Icon(widget.iconData, size: 120, color: Colors.white),
     );
   }
 }
