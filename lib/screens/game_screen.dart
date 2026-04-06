@@ -59,6 +59,8 @@ class GameScreen extends StatelessWidget {
                         children: [
                           const Text('YOU', style: TextStyle(fontWeight: FontWeight.w900, color: Colors.grey)),
                           const SizedBox(height: 8),
+                          Image.asset('assets/animations/chaA.gif', height: 80, width: 80),
+                          const SizedBox(height: 8),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: LinearProgressIndicator(
@@ -79,6 +81,8 @@ class GameScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(opponent.username.toUpperCase(), style: const TextStyle(fontWeight: FontWeight.w900, color: Colors.grey)),
+                          const SizedBox(height: 8),
+                          Image.asset('assets/animations/chaB.gif', height: 80, width: 80),
                           const SizedBox(height: 8),
                           ClipRRect(
                             borderRadius: BorderRadius.circular(8),
