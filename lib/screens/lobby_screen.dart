@@ -18,13 +18,8 @@ class LobbyScreen extends StatelessWidget {
     // Handle being kicked / room deleted
     if (room == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        // Only pop if we are actually still on the lobby screen
-        if (Navigator.canPop(context)) {
-          Navigator.pop(context);
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Room closed or you were removed.')),
-          );
-        }
+        if (!context.mounted) return;
+        Navigator.maybePop(context);
       });
       return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -35,9 +30,8 @@ class LobbyScreen extends StatelessWidget {
     // Handle game started
     if (room.status == 'playing') {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (Navigator.canPop(context)) {
-          Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const GameScreen()));
-        }
+        if (!context.mounted) return;
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const GameScreen()));
       });
       return Scaffold(
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -56,7 +50,9 @@ class LobbyScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back),
           onPressed: () async {
             await gameProvider.leaveRoom(user.uid);
-            if (context.mounted) Navigator.pop(context);
+            if (context.mounted) {
+              Navigator.maybePop(context);
+            }
           },
         ),
       ),

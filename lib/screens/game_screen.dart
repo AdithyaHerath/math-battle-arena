@@ -17,6 +17,7 @@ class GameScreen extends StatelessWidget {
 
     if (room == null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!context.mounted) return;
         Navigator.popUntil(context, (route) => route.isFirst);
       });
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
@@ -24,6 +25,7 @@ class GameScreen extends StatelessWidget {
 
     if (room.status == 'finished') {
        WidgetsBinding.instance.addPostFrameCallback((_) {
+           if (!context.mounted) return;
            Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const ResultScreen()));
        });
        return const Scaffold(body: Center(child: CircularProgressIndicator()));
