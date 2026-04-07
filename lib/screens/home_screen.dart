@@ -2,11 +2,27 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
 import '../providers/game_provider.dart';
+import '../providers/audio_provider.dart';
 import 'lobby_screen.dart';
 import 'leaderboard_screen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        context.read<AudioProvider>().playBackgroundMusic();
+      }
+    });
+  }
 
   void _showJoinRoomDialog(BuildContext context) {
     final gameProvider = context.read<GameProvider>();
@@ -59,6 +75,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final authProvider = context.watch<AppAuthProvider>();
     final gameProvider = context.watch<GameProvider>();
+    final audioProvider = context.watch<AudioProvider>();
     final user = authProvider.appUser;
 
     return Scaffold(
@@ -66,8 +83,15 @@ class HomeScreen extends StatelessWidget {
         title: const Text('Math Battle', style: TextStyle(fontWeight: FontWeight.w800)),
         actions: [
           IconButton(
+            icon: Icon(audioProvider.isPlaying ? Icons.volume_up : Icons.volume_off),
+            onPressed: () {
+              audioProvider.toggleMusic();
+            },
+          ),
+          IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
+              audioProvider.stopMusic();
               authProvider.signOut();
               authProvider.signInAnonymously();
             },
