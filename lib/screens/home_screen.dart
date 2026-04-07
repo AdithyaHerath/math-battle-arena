@@ -76,15 +76,23 @@ class HomeScreen extends StatelessWidget {
       ),
       body: authProvider.isLoading || user == null
           ? const Center(child: CircularProgressIndicator())
-          : SafeArea(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(24.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      const Icon(Icons.calculate, size: 60, color: Color(0xFF6366F1)),
+          : Stack(
+              fit: StackFit.expand,
+              children: [
+                Opacity(
+                  opacity: 0.7,
+                  child: Image.asset('assets/animations/fireflies.gif', fit: BoxFit.cover),
+                ),
+                SafeArea(
+                  child: Center(
+                    child: SingleChildScrollView(
+                      child: Padding(
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const Icon(Icons.calculate, size: 60, color: Color(0xFFF59E0B)),
                       const SizedBox(height: 24),
                       Card(
                         child: Padding(
@@ -170,6 +178,9 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+          ),
+              ],
             ),
     );
   }

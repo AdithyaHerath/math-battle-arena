@@ -41,17 +41,24 @@ class _SplashScreenState extends State<SplashScreen> {
     
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Opacity(
+            opacity: 0.3,
+            child: Image.asset('assets/animations/fireflies.gif', fit: BoxFit.cover),
+          ),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                color: theme.primaryColor.withOpacity(0.1),
+                color: const Color(0xFFF59E0B).withOpacity(0.1),
                 shape: BoxShape.circle,
               ),
-              child: Icon(Icons.calculate, size: 80, color: theme.primaryColor),
+              child: const Icon(Icons.calculate, size: 80, color: Color(0xFFF59E0B)),
             ),
             const SizedBox(height: 30),
             Text(
@@ -79,6 +86,8 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ],
         ),
+      ),
+        ],
       ),
     );
   }
