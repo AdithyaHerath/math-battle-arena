@@ -40,12 +40,21 @@ class GameProvider extends ChangeNotifier {
     _errorMessage = null;
     _me = user;
     _resultSaved = false;
+    _currentRoom = null;
     notifyListeners();
 
     try {
       final newRoomId = await _gameService.createRoom(user);
       _listenToRoom(newRoomId);
+      
+      int retries = 0;
+      while (_currentRoom?.roomId != newRoomId && retries < 60) {
+        await Future.delayed(const Duration(milliseconds: 50));
+        retries++;
+      }
+
       _isLoading = false;
+      notifyListeners();
       return true;
     } catch (e) {
       _errorMessage = "Failed to create room: $e";
@@ -60,18 +69,28 @@ class GameProvider extends ChangeNotifier {
     _errorMessage = null;
     _me = user;
     _resultSaved = false;
+    _currentRoom = null;
     notifyListeners();
 
     try {
-      final error = await _gameService.joinRoom(roomIdToJoin.trim(), user);
+      final rId = roomIdToJoin.trim();
+      final error = await _gameService.joinRoom(rId, user);
       if (error != null) {
         _errorMessage = error;
         _isLoading = false;
         notifyListeners();
         return false;
       }
-      _listenToRoom(roomIdToJoin.trim());
+      _listenToRoom(rId);
+
+      int retries = 0;
+      while (_currentRoom?.roomId != rId && retries < 60) {
+        await Future.delayed(const Duration(milliseconds: 50));
+        retries++;
+      }
+
       _isLoading = false;
+      notifyListeners();
       return true;
     } catch (e) {
       _errorMessage = "Failed to join room: $e";
