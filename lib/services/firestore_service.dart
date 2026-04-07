@@ -4,14 +4,16 @@ import '../models/app_user.dart';
 class FirestoreService {
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Future<void> createUserIfNotExist(String uid) async {
+  Future<void> createUserIfNotExist(String uid, [String? username]) async {
     final docRef = _db.collection('users').doc(uid);
     final docSnap = await docRef.get();
 
     if (!docSnap.exists) {
-      final username = 'Guest_${uid.substring(0, 4)}';
-      final newUser = AppUser(uid: uid, username: username);
+      final finalUsername = username ?? 'Guest_${uid.substring(0, 4)}';
+      final newUser = AppUser(uid: uid, username: finalUsername);
       await docRef.set(newUser.toMap());
+    } else if (username != null) {
+      await docRef.update({'username': username});
     }
   }
 
@@ -21,6 +23,15 @@ class FirestoreService {
       return AppUser.fromMap(docSnap.data()!, uid);
     }
     return null;
+  }
+
+  Stream<AppUser?> getUserStream(String uid) {
+    return _db.collection('users').doc(uid).snapshots().map((docSnap) {
+      if (docSnap.exists && docSnap.data() != null) {
+        return AppUser.fromMap(docSnap.data()!, uid);
+      }
+      return null;
+    });
   }
 
   Future<void> addMatchResult(String uid, bool isWinner) async {
