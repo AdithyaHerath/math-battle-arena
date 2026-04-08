@@ -148,7 +148,7 @@ class GameProvider extends ChangeNotifier {
 
   void _startLocalTimer(GameRoom room) {
       _localTimer?.cancel();
-      _timeLeft = 10;
+      _timeLeft = room.level == 'Intermediate' ? 30 : 10;
       notifyListeners();
       
       _localTimer = Timer.periodic(const Duration(seconds: 1), (timer) {
