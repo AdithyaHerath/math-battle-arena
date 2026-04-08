@@ -20,6 +20,7 @@ class GameService {
     final roomData = {
       'hostId': user.uid,
       'status': 'waiting',
+      'level': 'Beginner',
       'currentQuestionIndex': 0,
       'winnerId': null,
       'players': {
@@ -67,6 +68,12 @@ class GameService {
   Future<void> setReadyState(String roomId, String uid, bool isReady) async {
     await _db.child('rooms').child(roomId).child('players').child(uid).update({
       'isReady': isReady,
+    });
+  }
+
+  Future<void> setRoomLevel(String roomId, String level) async {
+    await _db.child('rooms').child(roomId).update({
+      'level': level,
     });
   }
 

@@ -6,6 +6,7 @@ class GameRoom {
   final String status; // "waiting", "playing", "finished"
   final int currentQuestionIndex;
   final String? winnerId;
+  final String level;
   final Map<String, RoomPlayer> players;
 
   GameRoom({
@@ -14,6 +15,7 @@ class GameRoom {
     required this.status,
     required this.currentQuestionIndex,
     this.winnerId,
+    required this.level,
     required this.players,
   });
 
@@ -32,6 +34,7 @@ class GameRoom {
       status: map['status'] ?? 'waiting',
       currentQuestionIndex: map['currentQuestionIndex'] ?? 0,
       winnerId: map['winnerId'],
+      level: map['level'] ?? 'Beginner',
       players: parsedPlayers,
     );
   }

@@ -167,7 +167,8 @@ class GameProvider extends ChangeNotifier {
 
   Future<void> _moveToNextQuestion(GameRoom room) async {
        _localTimer?.cancel();
-       if (room.currentQuestionIndex >= MathQuestion.pool.length - 1) {
+       int poolLength = MathQuestion.levelPools[room.level]?.length ?? 5;
+       if (room.currentQuestionIndex >= poolLength - 1) {
              await _endGame(room);
        } else {
              final Map<String, Object> updates = {
@@ -201,7 +202,8 @@ class GameProvider extends ChangeNotifier {
       // Prevent double answering per question 
       if (myPlayer == null || myPlayer.hasAnsweredCurrent) return;
 
-      final currentQ = MathQuestion.pool[_currentRoom!.currentQuestionIndex];
+      final pool = MathQuestion.levelPools[_currentRoom!.level] ?? MathQuestion.levelPools['Beginner']!;
+      final currentQ = pool[_currentRoom!.currentQuestionIndex];
       bool isCorrect = selectedAnswer == currentQ.correctAnswer;
 
       // Find opponent
@@ -209,6 +211,12 @@ class GameProvider extends ChangeNotifier {
       int opponentHp = opponentId.isNotEmpty ? (_currentRoom!.players[opponentId]?.hp ?? 100) : 100;
 
       await _gameService.submitAnswer(_currentRoom!.roomId, _me!.uid, opponentId, opponentHp, isCorrect);
+  }
+
+  Future<void> setRoomLevel(String level) async {
+    if (_currentRoom != null && _me != null && _currentRoom!.hostId == _me!.uid) {
+      await _gameService.setRoomLevel(_currentRoom!.roomId, level);
+    }
   }
 
   Future<void> toggleReady(String uid) async {

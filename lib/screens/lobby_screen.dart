@@ -95,7 +95,36 @@ class LobbyScreen extends StatelessWidget {
                   ],
                 ),
               ),
-              const SizedBox(height: 32),
+              const SizedBox(height: 24),
+              // Level Selection
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade300),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text('Difficulty', style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16, color: Colors.grey)),
+                    if (isHost)
+                      DropdownButton<String>(
+                        value: room.level,
+                        underline: const SizedBox(),
+                        items: ['Beginner', 'Intermediate', 'Advanced']
+                            .map((l) => DropdownMenuItem(value: l, child: Text(l, style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF6366F1)))))
+                            .toList(),
+                        onChanged: (val) {
+                          if (val != null) gameProvider.setRoomLevel(val);
+                        },
+                      )
+                    else
+                      Text(room.level, style: const TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF6366F1), fontSize: 16)),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
               
               const Text(
                 'Players (Max 2)',

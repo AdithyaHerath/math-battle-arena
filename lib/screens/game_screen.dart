@@ -39,11 +39,12 @@ class GameScreen extends StatelessWidget {
         return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
-    final currentQuestion = MathQuestion.pool[room.currentQuestionIndex];
+    final pool = MathQuestion.levelPools[room.level] ?? MathQuestion.levelPools['Beginner']!;
+    final currentQuestion = pool[room.currentQuestionIndex];
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Question ${room.currentQuestionIndex + 1} / ${MathQuestion.pool.length}'),
+        title: Text('${room.level}: Q ${room.currentQuestionIndex + 1} / ${pool.length}'),
         automaticallyImplyLeading: false, // Prevent going back manually
       ),
       body: SafeArea(
